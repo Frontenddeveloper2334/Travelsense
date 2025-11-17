@@ -1,23 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { getLocationSuggestions } from '../services/LocationService';
+import React, { useState, useEffect, useRef } from "react";
+import { getLocationSuggestions } from "../services/LocationService";
 
-export default function LocationInput({ 
-  placeholder, 
-  value, 
-  onChange, 
-  onSelectLocation 
+export default function LocationInput({
+  placeholder,
+  value,
+  onChange,
+  onSelectLocation,
 }) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLocationSelected, setisLocationSelected] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      if (value.length > 1) {
+      if (value.length > 1 && !isLocationSelected) {
         setLoading(true);
         const results = await getLocationSuggestions(value);
-        console.log('Location suggestions:', results);
+        console.log("Location suggestions:", results);
         setSuggestions(results);
         setShowSuggestions(true);
         setLoading(false);
@@ -33,20 +34,24 @@ export default function LocationInput({
   // ✅ Outside click detect करने के लिए
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setShowSuggestions(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSelectLocation = (location) => {
     onChange(location.name);
     onSelectLocation(location);
-    setShowSuggestions(false);  // ✅ बस यह एक line
+    setShowSuggestions(false); // ✅ बस यह एक line
     setSuggestions([]);
+    setisLocationSelected(true);
   };
 
   return (
@@ -55,9 +60,11 @@ export default function LocationInput({
         type="text"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => value.length > 1 && suggestions.length > 0 && setShowSuggestions(true)}
-        className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        onChange={(e) => [onChange(e.target.value), setisLocationSelected(false)]}
+        onFocus={() =>
+          value.length > 1 && suggestions.length > 0 && setShowSuggestions(true)
+        }
+        className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none"
       />
 
       {showSuggestions && suggestions.length > 0 && (

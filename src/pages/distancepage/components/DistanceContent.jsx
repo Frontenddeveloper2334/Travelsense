@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
 
-function Content() {
+function DistanceContent() {
   return (
-   <section className="w-full max-w-7xl mx-auto px-4 md:px-8 my-16">
+    <section className="w-full max-w-7xl mx-auto px-4 md:px-8 my-16">
   {/* Use grid only for layout if needed, but keep all text in one column */}
   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
     
     {/* LEFT COLUMN (Text Section) */}
     <div>
       <h2 className="text-4xl font-semibold text-[#002060] mb-4">
-        Driving Calculator
+        Distance Calculator
       </h2>
 
       {/* Yellow underline */}
@@ -96,7 +96,7 @@ function Content() {
     </div>
   </div>
 </section>
-  );
+  )
 }
 
-export default Content;
+export default DistanceContent
