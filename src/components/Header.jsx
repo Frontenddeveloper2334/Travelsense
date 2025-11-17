@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaCar,
   FaRoad,
@@ -14,6 +15,7 @@ const menuItems = [
   {
     title: "Driving",
     icon: <FaCar />,
+    path: "/driving", // ✅ This links to DrivingPage
     links: [
       { name: "Driving Distance", href: "/drive-distance" },
       { name: "Driving Time", href: "/driving-time" },
@@ -23,6 +25,7 @@ const menuItems = [
   {
     title: "Distance",
     icon: <FaRoad />,
+    path: "/distance",
     links: [
       { name: "Cities Nearby", href: "/cities-near" },
       { name: "Halfway Point", href: "/halfway" },
@@ -74,11 +77,11 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="relative w-full text-[#00205b] bg-white">
+    <header className="relative w-full text-[#00205b] bg-white shadow">
       <div className="mx-auto max-w-[1280px] font-[800] flex items-center justify-end px-8 relative">
-        {/* Floating Logo (now above navbar) */}
-        <a
-          href=""
+        {/* ✅ Logo links to homepage */}
+        <Link
+          to="/"
           className="absolute top-0 left-9 flex items-center gap-2 text-xl font-bold text-white z-10"
         >
           <img
@@ -86,9 +89,9 @@ export default function Header() {
             alt="TravelSense Logo"
             className="hidden lg:block w-40 shadow-lg object-contain"
           />
-        </a>
+        </Link>
 
-        {/* Hamburger button (mobile) */}
+        {/* Hamburger (Mobile) */}
         <button
           className="md:hidden text-2xl focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -105,24 +108,37 @@ export default function Header() {
               onMouseEnter={() => setActive(i)}
               onMouseLeave={() => setActive(null)}
             >
-              <button className="flex items-center gap-2 px-3 py-3 hover:bg-yellow-300 transition">
-                {menu.icon}{" "}
-                <span className="uppercase text-sm font-semibold">
-                  {menu.title}
-                </span>
-              </button>
+              {/* ✅ Make “Driving” a clickable Link */}
+              {menu.path ? (
+                <Link
+                  to={menu.path}
+                  className="flex items-center gap-2 px-3 py-3 hover:bg-yellow-300 transition"
+                >
+                  {menu.icon}
+                  <span className="uppercase text-sm font-semibold">
+                    {menu.title}
+                  </span>
+                </Link>
+              ) : (
+                <button className="flex items-center gap-2 px-3 py-3 hover:bg-yellow-300 transition">
+                  {menu.icon}
+                  <span className="uppercase text-sm font-semibold">
+                    {menu.title}
+                  </span>
+                </button>
+              )}
 
               {/* Dropdown */}
               {active === i && (
                 <div className="absolute left-0 top-full mt-1 font-semibold bg-white text-gray-800 rounded-lg shadow-lg min-w-[180px] overflow-hidden animate-fadeIn z-50">
                   {menu.links.map((link, j) => (
-                    <a
+                    <Link
                       key={j}
-                      href={link.href}
+                      to={link.href}
                       className="block px-4 py-3 hover:bg-blue-100 border-b border-gray-100 last:border-none text-sm"
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -136,24 +152,36 @@ export default function Header() {
         <div className="md:hidden py-3 px-4 space-y-4 animate-fadeIn">
           {menuItems.map((menu, i) => (
             <div key={i}>
-              <p
-                className="flex items-center gap-2 font-bold text-black mb-1"
-                onClick={() => setActive(active === i ? null : i)}
-              >
-                {menu.icon} {menu.title}
-              </p>
+              {/* ✅ Driving main link in mobile */}
+              {menu.path ? (
+                <Link
+                  to={menu.path}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 font-bold text-black mb-1"
+                >
+                  {menu.icon} {menu.title}
+                </Link>
+              ) : (
+                <p
+                  className="flex items-center gap-2 font-bold text-black mb-1 cursor-pointer"
+                  onClick={() => setActive(active === i ? null : i)}
+                >
+                  {menu.icon} {menu.title}
+                </p>
+              )}
 
               {/* Sub-links in mobile */}
               {active === i && (
                 <div className="pl-6 space-y-1">
                   {menu.links.map((link, j) => (
-                    <a
+                    <Link
                       key={j}
-                      href={link.href}
-                      className="block text-sm text-gray-200 hover:text-yellow-300"
+                      to={link.href}
+                      className="block text-sm text-gray-700 hover:text-yellow-500"
+                      onClick={() => setMenuOpen(false)}
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}

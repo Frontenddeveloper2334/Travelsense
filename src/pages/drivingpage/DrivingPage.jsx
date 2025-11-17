@@ -9,18 +9,22 @@ function DrivingPage() {
   return (
     <>
       <Header />
+
       <DrivingCalculator />
+
+      <Content />
+
       <TravelTool
-        firstButtonName={"Driving Time"}
-        secondButtonName={"Cost of Driving"}
-        thirdButtonName={"Stoping Point"}
-        fourthButtonName={"Driving Distance"}
-        fifthButtonName={"Halway Point"}
-        sixButtonName={"Cities Near A Place"}
-        cardTitle={"Quick Links"}
-        imageSrc={"/Image/driving.jpg"}
+        firstButtonName="Driving Time"
+        secondButtonName="Cost of Driving"
+        thirdButtonName="Stopping Point" 
+        fourthButtonName="Driving Distance"
+        fifthButtonName="Halfway Point" 
+        sixButtonName="Cities Near A Place"
+        cardTitle="Quick Links"
+        imageSrc="/Image/driving.jpg"
       />
-      <Content/>
+
       <Footer />
     </>
   );

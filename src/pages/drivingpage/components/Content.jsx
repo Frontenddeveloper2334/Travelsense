@@ -2,18 +2,22 @@ import React from "react";
 
 function Content() {
   return (
-    <section className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
-      {/* Heading */}
-      <h2 className="text-3xl sm:text-4xl font-bold text-[#002060] mb-4">
+   <section className="w-full max-w-7xl mx-auto px-4 md:px-8 my-16">
+  {/* Use grid only for layout if needed, but keep all text in one column */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    
+    {/* LEFT COLUMN (Text Section) */}
+    <div>
+      <h2 className="text-4xl font-semibold text-[#002060] mb-4">
         Driving Calculator
       </h2>
 
       {/* Yellow underline */}
       <div className="w-20 h-1 bg-yellow-400 mb-6"></div>
 
-      {/* Paragraphs with links */}
-      <p className="text-lg leading-relaxed text-gray-700 mb-4">
-        Travelmath provides driving information to help you plan a road trip.
+      {/* Paragraphs */}
+      <p className="leading-relaxed text-gray-700 mb-4">
+        Travelsense provides driving information to help you plan a road trip.
         You can measure the{" "}
         <a
           href="#driving-distance"
@@ -62,7 +66,7 @@ function Content() {
         for your road trip.
       </p>
 
-      <p className="text-lg leading-relaxed text-gray-700">
+      <p className="leading-relaxed text-gray-700">
         You can look for{" "}
         <a
           href="#cities-near"
@@ -80,7 +84,19 @@ function Content() {
         </a>
         .
       </p>
-    </section>
+    </div>
+
+    {/* RIGHT COLUMN (Optional Image or Illustration) */}
+    <div className="hidden md:flex justify-center">
+      <img
+        src="/Image/driving-info.jpg"
+        alt="Driving Information"
+        className="rounded-2xl shadow-lg object-cover max-h-[400px]"
+      />
+    </div>
+  </div>
+</section>
+
   );
 }
 
