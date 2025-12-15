@@ -36,6 +36,7 @@ const menuItems = [
   {
     title: "Flying",
     icon: <FaPlane />,
+    path: "/flying",
     links: [
       { name: "Flight Time", href: "/flying-time" },
       { name: "Closest Airport", href: "/nearest-airport" },
@@ -46,6 +47,7 @@ const menuItems = [
   {
     title: "Time",
     icon: <FaClock />,
+    path: "/time",
     links: [
       { name: "Time Difference", href: "/time-change" },
       { name: "Driving Time", href: "/driving-time" },
@@ -55,6 +57,7 @@ const menuItems = [
   {
     title: "Cost",
     icon: <FaCreditCard />,
+    path: "/cost",
     links: [
       { name: "Cost of Driving", href: "/cost-of-driving" },
       { name: "Fly or Drive", href: "/fly-or-drive" },
@@ -64,6 +67,7 @@ const menuItems = [
   {
     title: "Places",
     icon: <FaGlobe />,
+    path: "/places",
     links: [
       { name: "Cities", href: "/cities" },
       { name: "Airports", href: "/airport" },

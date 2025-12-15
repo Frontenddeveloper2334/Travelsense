@@ -3,12 +3,14 @@ import Header from "../../components/Header";
 import Banner from "./components/Banner";
 import Footer from "../../components/Footer";
 import { TravelTool } from "../../components/TravelTool";
+import Content from "./components/Content";
 
 function Homepage() {
   return (
     <div>
       <Header />
       <Banner />
+      <Content/>
       <TravelTool
         firstButtonName={"Flight time"}
         secondButtonName={"Closest airport"}
@@ -22,7 +24,7 @@ function Homepage() {
         cardTitle={"Travel Tool"}
         imageSrc={"/Image/col-img.jpg"}
       />
-      <Footer />
+       <Footer />
     </div>
   );
 }

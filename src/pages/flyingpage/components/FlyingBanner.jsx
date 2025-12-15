@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function DistanceBanner() {
+function FlyingBanner() {
   const [formData, setFormData] = useState({
     path: "drive-distance",
     from: "",
@@ -15,7 +15,6 @@ function DistanceBanner() {
     e.preventDefault();
     console.log(formData);
   };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       {/* LEFT SIDE - Blue Section */}
@@ -45,7 +44,7 @@ function DistanceBanner() {
         {/* Form */}
         <div className="relative z-10 max-w-md w-full mx-4 my-14 bg-white/90 backdrop-blur-md shadow-2xl p-6 sm:p-8">
           <h1 className="text-2xl font-medium mb-6 text-left">
-            <span className="text-[#00205b] pr-1">Distance</span>
+            <span className="text-[#00205b] pr-1">Flying</span>
             <span className="text-yellow-400 font-bold">Calculator</span>
           </h1>
 
@@ -62,9 +61,12 @@ function DistanceBanner() {
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#00205b]"
               >
+                <option value="airline-serving">Airlines serving</option>
+                <option value="flight-time">Flight time</option>
+                <option value="closest-airport">Closest airport</option>
                 <option value="drive-distance">distance</option>
-                <option value="halfway">halfway point</option>
-                <option value="stopping-points">stopping points</option>
+                <option value="direct-flight">Direct flight</option>
+                <option value="fly-or-drive">Fly or drive</option>
                 <option value="cities-near">major cities</option>
                 <option value="lat-long">latitude/longitude</option>
               </select>
@@ -145,4 +147,4 @@ function DistanceBanner() {
   );
 }
 
-export default DistanceBanner;
+export default FlyingBanner;

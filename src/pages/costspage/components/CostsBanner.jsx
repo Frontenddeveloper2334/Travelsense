@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function DistanceBanner() {
+function CostsBanner() {
   const [formData, setFormData] = useState({
     path: "drive-distance",
     from: "",
@@ -15,7 +15,6 @@ function DistanceBanner() {
     e.preventDefault();
     console.log(formData);
   };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       {/* LEFT SIDE - Blue Section */}
@@ -45,7 +44,7 @@ function DistanceBanner() {
         {/* Form */}
         <div className="relative z-10 max-w-md w-full mx-4 my-14 bg-white/90 backdrop-blur-md shadow-2xl p-6 sm:p-8">
           <h1 className="text-2xl font-medium mb-6 text-left">
-            <span className="text-[#00205b] pr-1">Distance</span>
+            <span className="text-[#00205b] pr-1">Cost</span>
             <span className="text-yellow-400 font-bold">Calculator</span>
           </h1>
 
@@ -145,4 +144,4 @@ function DistanceBanner() {
   );
 }
 
-export default DistanceBanner;
+export default CostsBanner;

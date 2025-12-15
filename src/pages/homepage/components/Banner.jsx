@@ -1,3 +1,4 @@
+// ...existing code...
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LocationInput from "../../../components/LocationInput";
@@ -24,8 +25,13 @@ export default function Banner() {
 
     if (singleInputOptions.includes(path)) {
       if (!from) return alert("Please enter the location!");
+      // send both `location` and `from` so ResultsPage can use either
       navigate(`/results`, {
-        state: { calculationType: path, location: fromLocation || { name: from } }
+        state: {
+          calculationType: path,
+          location: fromLocation || { name: from },
+          from: fromLocation || { name: from },
+        },
       });
       return;
     }
@@ -40,8 +46,8 @@ export default function Banner() {
       state: {
         calculationType: path,
         from: fromLocation || { name: from },
-        to: toLocation || { name: to }
-      }
+        to: toLocation || { name: to },
+      },
     });
     setLoading(false);
   };
@@ -86,7 +92,7 @@ export default function Banner() {
             <select
               value={path}
               onChange={(e) => setPath(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full border border-gray-300 rounded-lg p-3"
             >
               <option value="from">All calculations</option>
               <option value="distance">Distance</option>
@@ -146,3 +152,4 @@ export default function Banner() {
     </div>
   );
 }
+// ...existing code...
