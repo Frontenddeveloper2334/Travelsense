@@ -68,7 +68,7 @@ export default function Banner() {
         <div className="relative w-full lg:w-[45%] bg-[#00205b] text-white flex flex-col justify-center">
           <div className="max-w-xxl w-full absolute top-30 left-40 space-y-5">
             <h1 className="w-full text-3xl md:text-5xl font-bold leading-tight">
-              <span className="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-[1.5]">
+              <span className="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-normal">
                 Travel Sense: Where You Want To Explore
               </span>
             </h1>

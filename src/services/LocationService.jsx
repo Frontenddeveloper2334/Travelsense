@@ -10,6 +10,8 @@ export const getLocationSuggestions = async (query) => {
     return data.results?.map(location => ({
       name: location.name,
       country: location.country,
+      lat: location.latitude,
+      lon: location.longitude,
       latitude: location.latitude,
       longitude: location.longitude,
       admin1: location.admin1 || '',
@@ -69,4 +71,19 @@ export const getTimezoneDifference = async (lat1, lon1, lat2, lon2) => {
   } catch (error) {
     return null;
   }
+};
+
+// Find nearby airports from a local dataset, sorted by distance
+import airports from "../data/airports";
+
+export const findNearbyAirports = (lat, lon, maxResults = 6) => {
+  if (lat == null || lon == null) return [];
+  const list = airports
+    .map((a) => {
+      const d = calculateDistance(lat, lon, Number(a.lat), Number(a.lon));
+      return { ...a, km: Math.round(d) };
+    })
+    .sort((a, b) => a.km - b.km)
+    .slice(0, maxResults);
+  return list;
 };

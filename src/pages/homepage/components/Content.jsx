@@ -1,15 +1,29 @@
 import React, { useState } from "react";
+import LocationInput from "../../../components/LocationInput";
+import PriceCalculator from "../../../components/PriceCalculator";
+import { useNavigate } from "react-router-dom";
 
 function Content() {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [fromQuery, setFromQuery] = useState("");
+  const [toQuery, setToQuery] = useState("");
+  const [fromLocation, setFromLocation] = useState(null);
+  const [toLocation, setToLocation] = useState(null);
   const [city, setCity] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [type, setType] = useState("hotel");
 
+  const navigate = useNavigate();
+
   const handleCalculate = () => {
-    alert(`Calculating distance from ${from} to ${to}`);
+    if (!fromLocation || !toLocation) {
+      alert("Please select both From and To locations from suggestions.");
+      return;
+    }
+
+    navigate("/flight-result", {
+      state: { from: fromLocation, to: toLocation },
+    });
   };
 
   const handleSearch = () => {
@@ -77,7 +91,7 @@ function Content() {
           </div>
 
           {/* Row 3 — Long Body Text */}
-          <div className="p-6 bg-white rounded-xl shadow space-y-4">
+          <div className="p-6 bg-white rounded-xl shadow space-y-4 border border-gray-200">
             <h3 className="text-2xl font-bold text-[#05296B]">What is TravelSense?</h3>
             <p className="text-gray-700 leading-relaxed">
               TravelSense helps you calculate travel time, distance, and cost for any location.
@@ -105,69 +119,56 @@ function Content() {
           <div className="p-6 bg-white rounded-xl shadow space-y-4">
             <h3 className="text-2xl font-bold text-[#05296B]">Quick Calculator</h3>
 
-            <input
-              className="border p-3 rounded w-full"
-              placeholder="From"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
+            <LocationInput
+              placeholder="From (city or country)"
+              value={fromQuery}
+              onChange={(v) => setFromQuery(v)}
+              onSelectLocation={(loc) => {
+                setFromLocation(loc);
+                setFromQuery(`${loc.name}, ${loc.country}`);
+              }}
             />
-            <input
-              className="border p-3 rounded w-full"
-              placeholder="To"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
+
+            <LocationInput
+              placeholder="To (city or country)"
+              value={toQuery}
+              onChange={(v) => setToQuery(v)}
+              onSelectLocation={(loc) => {
+                setToLocation(loc);
+                setToQuery(`${loc.name}, ${loc.country}`);
+              }}
             />
 
             <button
               onClick={handleCalculate}
-              className="bg-[#ffdd00] w-full py-2 rounded font-semibold hover:bg-[#00205b] hover:text-[#ffdd00] border-2 hover:border-[#ffdd00] transition-all"
+              className="bg-[#ffdd00] w-full py-2 rounded font-semibold text-[#00205b] hover:bg-[#00205b] hover:text-[#ffdd00]  hover:border-[#ffdd00] transition-all"
             >
               CALCULATE
             </button>
           </div>
 
-          {/* Price Checker */}
-          <div className="p-6 bg-white rounded-xl shadow space-y-4">
-            <h3 className="text-2xl font-bold text-[#05296B]">Check Prices</h3>
+          
 
-            <input
-              className="border p-3 rounded w-full"
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-
-            <input
-              type="date"
-              className="border p-3 rounded w-full"
-              value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
-            />
-
-            <input
-              type="date"
-              className="border p-3 rounded w-full"
-              value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
-            />
-
-            <select
-              className="border p-3 rounded w-full"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="hotel">Hotel</option>
-              <option value="car">Car</option>
-              <option value="flight">Flight</option>
-            </select>
-
-            <button
-              onClick={handleSearch}
-              className="bg-[#ffdd00] w-full py-2 rounded font-semibold hover:bg-[#00205b] hover:text-[#ffdd00] border-2 hover:border-[#ffdd00] transition-all"
-            >
-              SEARCH
-            </button>
-          </div>
+          <PriceCalculator
+            type={type}
+            setType={setType}
+            fromQuery={fromQuery}
+            setFromQuery={setFromQuery}
+            toQuery={toQuery}
+            setToQuery={setToQuery}
+            fromLocation={fromLocation}
+            setFromLocation={setFromLocation}
+            toLocation={toLocation}
+            setToLocation={setToLocation}
+            city={city}
+            setCity={setCity}
+            checkIn={checkIn}
+            setCheckIn={setCheckIn}
+            checkOut={checkOut}
+            setCheckOut={setCheckOut}
+            navigate={navigate}
+            handleSearch={handleSearch}
+          />
 
         </div>
       </div>

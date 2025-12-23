@@ -22,13 +22,13 @@ export default function DrivingCalculator() {
       {/* LEFT SIDE - Blue Section */}
       <div className="relative bg-[#00205b] flex flex-col justify-center px-10 py-16 text-white">
        <div className="absolute left-40 top-25">
-         <h1 class="w-full text-3xl md:text-4xl font-bold leading-tight">
-          <span class="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-[1.5]">
+         <h1 className="w-full text-3xl md:text-4xl font-bold leading-tight">
+          <span className="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-normal">
             Plan Your Perfect Road Trip
           </span>
         </h1>
        
-        <p class="text-base md:text-lg max-w-sm pt-5 leading-relaxed">
+        <p className="text-base md:text-lg max-w-sm pt-5 leading-relaxed">
          Calculate driving distance, cost, and time between any two places.
           Discover halfway points, nearby cities, and more — all in one tool.
         </p>

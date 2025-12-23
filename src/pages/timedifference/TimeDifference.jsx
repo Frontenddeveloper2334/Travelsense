@@ -1,0 +1,263 @@
+import React, { useState } from "react";
+import LocationInput from "../../components/LocationInput";
+import {
+  calculateDistance,
+  calculateDrivingTime,
+  getTimezoneDifference,
+} from "../../services/LocationService";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import PriceCalculator from "../../components/PriceCalculator";
+import { useNavigate } from "react-router-dom";
+
+export default function TimeDifference() {
+  const [path, setPath] = useState("time-change"); // default selection -> Time Difference
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [fromLocation, setFromLocation] = useState(null);
+  const [toLocation, setToLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [type, setType] = useState("hotel");
+  const [city, setCity] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const navigate = useNavigate();
+
+  const singleInputOptions = [
+    "nearest-airport",
+    "cities-near",
+    "stopping-points",
+    "hotels-near",
+    "currency",
+    "lat-long",
+  ];
+
+  const titleMap = {
+    "flying-time": "Flying Time",
+    distance: "Distance",
+    "driving-time": "Driving Time",
+    "driving-distance": "Driving Distance",
+    "halfway": "Halfway Point",
+    "time-change": "Time Difference",
+    "cities-near": "Cities Nearby",
+    "nearest-airport": "Closest Airport",
+    default: "Travel Calculations",
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setResult(null);
+
+    // If the selected path uses a single input (like cities-near), require only the 'from' location
+    if (singleInputOptions.includes(path)) {
+      if (!fromLocation) {
+        alert("Please select a location from suggestions.");
+        return;
+      }
+
+      // For now, show a simple result indicating the selected location (placeholder for nearby-cities logic)
+      setResult({ locationName: fromLocation.name, lat: fromLocation.latitude ?? fromLocation.lat, lon: fromLocation.longitude ?? fromLocation.lon });
+      return;
+    }
+
+    // For two-location calculations (distance, driving time, time difference, etc.) require both locations
+    if (!fromLocation || !toLocation) {
+      alert("Please select both From and To locations from suggestions.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const fLat = Number(fromLocation.latitude ?? fromLocation.lat ?? 0);
+      const fLon = Number(fromLocation.longitude ?? fromLocation.lon ?? 0);
+      const tLat = Number(toLocation.latitude ?? toLocation.lat ?? 0);
+      const tLon = Number(toLocation.longitude ?? toLocation.lon ?? 0);
+
+      const km = calculateDistance(fLat, fLon, tLat, tLon);
+      const drivingHours = calculateDrivingTime(km);
+
+      // If user selected time-change, fetch timezone difference
+      if (path === "time-change") {
+        const tz = await getTimezoneDifference(fLat, fLon, tLat, tLon);
+        const diffSeconds = tz?.difference ?? 0;
+        const diffHours = diffSeconds / 3600;
+        setResult({ km: km.toFixed(0), drivingHours, timezones: tz, hoursDiff: diffHours });
+      } else {
+        // Simple geographic midpoint (average lat/lon)
+        const midLat = (fLat + tLat) / 2;
+        const midLon = (fLon + tLon) / 2;
+        setResult({ km: km.toFixed(0), drivingHours, midpoint: { lat: midLat, lon: midLon } });
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error calculating. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = () => {
+    alert(`Searching ${type} in ${city} from ${checkIn} to ${checkOut}`);
+  };
+
+  return (
+    <>
+      <Header />
+      <div className="max-w-7xl mx-auto py-12 px-6 mt-4">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+          {/* LEFT SIDE - Main Content */}
+          <main className="flex-1">
+            <div className="w-full">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full bg-white p-8 shadow-xl space-y-6 rounded-lg"
+              >
+                <h1 className="text-2xl font-medium mb-2 text-left">
+                  <span className="text-[#00205b] pr-1">
+                    {titleMap[path] || titleMap.default}
+                  </span>
+                  <span className="text-yellow-400 font-bold">Calculator</span>
+                </h1>
+
+                <select
+                  value={path}
+                  onChange={(e) => setPath(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-3"
+                >
+                  <option value="from">All calculations</option>
+                  <option value="distance">Distance</option>
+                  <option value="driving-distance">Driving Distance</option>
+                  <option value="flying-time">Flying Time</option>
+                  <option value="driving-time">Driving Time</option>
+                  <option value="nearest-airport">Closest airport</option>
+                  <option value="cost-of-driving">Cost of driving</option>
+                  <option value="halfway">Halfway point</option>
+                  <option value="time-change">Time difference</option>
+                  <option value="cities-near">Cities near</option>
+                  <option value="stopping-points">Stopping points</option>
+                  <option value="fly-or-drive">Fly or drive</option>
+                  <option value="nonstop-flight">Direct flights</option>
+                  <option value="airlines-serving">Airlines serving</option>
+                  <option value="hotels-near">Hotels in the area</option>
+                  <option value="currency">Currency converter</option>
+                  <option value="lat-long">Latitude/Longitude</option>
+                </select>
+
+                {singleInputOptions.includes(path) ? (
+                  <LocationInput
+                    placeholder="Enter city or place to find nearby cities"
+                    value={from}
+                    onChange={setFrom}
+                    onSelectLocation={setFromLocation}
+                  />
+                ) : (
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <LocationInput
+                      placeholder="From"
+                      value={from}
+                      onChange={setFrom}
+                      onSelectLocation={setFromLocation}
+                    />
+                    <LocationInput
+                      placeholder="To"
+                      value={to}
+                      onChange={setTo}
+                      onSelectLocation={setToLocation}
+                    />
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#ffdd00] text-[#00205b] font-semibold px-8 py-3 rounded-md w-full text-lg transition-all duration-300 border-2 border-transparent hover:border-[#ffdd00] hover:bg-[#00205b] hover:text-[#ffdd00] disabled:opacity-50"
+                >
+                  {loading ? "CALCULATING..." : "GO"}
+                </button>
+
+                {result && (
+                  <div className="mt-4 p-4 bg-gray-50 rounded">
+                    <div className="font-semibold">Results</div>
+                    {path === "time-change" && result.timezones ? (
+                      <div className="text-sm mt-2 space-y-1">
+                        <div>From timezone: <strong>{result.timezones.from_tz}</strong></div>
+                        <div>To timezone: <strong>{result.timezones.to_tz}</strong></div>
+                        <div>Offset: <strong>{(result.hoursDiff >= 0 ? "+" : "") + result.hoursDiff} hours</strong></div>
+                        <div className="text-xs text-gray-700">Distance between points: {result.km} km</div>
+                      </div>
+                    ) : result.midpoint ? (
+                      <div className="text-sm mt-2 space-y-1">
+                        <div>Distance between points: <strong>{result.km} km</strong></div>
+                        <div>Estimated driving time: <strong>{result.drivingHours} hour(s)</strong></div>
+                        <div>Midpoint coordinates:</div>
+                        <div className="text-xs text-gray-700">lat: {result.midpoint.lat.toFixed(4)}, lon: {result.midpoint.lon.toFixed(4)}</div>
+                        <a
+                          className="text-blue-600 text-sm underline"
+                          href={`https://www.google.com/maps?q=${result.midpoint.lat},${result.midpoint.lon}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          View midpoint on Google Maps
+                        </a>
+                      </div>
+                    ) : result.locationName ? (
+                      <div className="text-sm mt-2">
+                        Showing nearby cities for: <strong>{result.locationName}</strong>
+                        <div className="text-xs text-gray-500">lat: {result.lat}, lon: {result.lon}</div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="text-sm mt-2">Distance: {result.km} km</div>
+                        <div className="text-sm">Estimated driving time: {result.drivingHours} hour(s)</div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </form>
+
+              <article className="prose prose-lg text-gray-700 mt-10">
+                <h2 className="text-2xl font-bold text-[#05296B] pb-2">Time Difference Between Locations</h2>
+                <p>
+                  Use the Time Difference tool to find the timezone difference between two locations. Enter the origin and destination, then press GO — the tool will estimate the time zone for each location and the offset between them.
+                </p>
+
+                <p>
+                  This is useful when planning calls, meetings, or trips across time zones. The timezone data is retrieved from an external time API and displayed along with distance and driving-time estimates.
+                </p>
+              </article>
+            </div>
+          </main>
+
+          {/* RIGHT SIDE - Sticky Sidebar */}
+          <aside className="w-full lg:w-80 shrink-0">
+            <div className="lg:sticky lg:top-28 space-y-6">
+              <PriceCalculator
+                type={type}
+                setType={setType}
+                fromQuery={from}
+                setFromQuery={setFrom}
+                toQuery={to}
+                setToQuery={setTo}
+                fromLocation={fromLocation}
+                setFromLocation={setFromLocation}
+                toLocation={toLocation}
+                setToLocation={setToLocation}
+                city={city}
+                setCity={setCity}
+                checkIn={checkIn}
+                setCheckIn={setCheckIn}
+                checkOut={checkOut}
+                setCheckOut={setCheckOut}
+                navigate={navigate}
+                handleSearch={handleSearch}
+              />
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <Footer />
+    </>
+  );
+}

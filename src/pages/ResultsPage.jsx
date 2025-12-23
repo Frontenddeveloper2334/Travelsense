@@ -7,7 +7,7 @@ import {
   calculateDrivingTime,
   calculateFlightTime,
   getTimezoneDifference,
-} from "../services/locationService";
+} from "../services/LocationService";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -243,35 +243,35 @@ export default function ResultsPage() {
         </div>
       </div>
 
-    <div class="max-w-7xl mx-auto w-full bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <h1 class="text-2xl font-bold text-blue-900 mb-4 text-left">
+    <div className="max-w-7xl mx-auto w-full bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+          <h1 className="text-2xl font-bold text-blue-900 mb-4 text-left">
             Distance from Delhi to Dubai
           </h1>
 
-          <div class="space-y-3 text-gray-700 text-lg">
+          <div className="space-y-3 text-gray-700 text-lg">
             <p>
-              <span class="font-semibold">Straight Line Flight Distance:</span>{" "}
+              <span className="font-semibold">Straight Line Flight Distance:</span>{" "}
               1,373 miles
             </p>
             <p>
-              <span class="font-semibold">Equivalent:</span> 2,210 kilometers or
+              <span className="font-semibold">Equivalent:</span> 2,210 kilometers or
               1,194 nautical miles
             </p>
             <p>
-              <span class="font-semibold">Trip Begins:</span> Delhi, India
+              <span className="font-semibold">Trip Begins:</span> Delhi, India
             </p>
             <p>
-              <span class="font-semibold">Trip Ends:</span> Dubai, United Arab
+              <span className="font-semibold">Trip Ends:</span> Dubai, United Arab
               Emirates
             </p>
             <p>
-              <span class="font-semibold">Flight Direction:</span> West (-95°
+              <span className="font-semibold">Flight Direction:</span> West (-95°
               from North)
             </p>
           </div>
 
-          <div class="mt-6 text-left">
-            <p class="text-gray-500 text-sm">
+          <div className="mt-6 text-left">
+            <p className="text-gray-500 text-sm">
               This tool calculates the straight line flying distance ("as the
               crow flies") and driving distance if available.
             </p>

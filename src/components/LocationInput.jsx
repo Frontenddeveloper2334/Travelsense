@@ -11,14 +11,15 @@ export default function LocationInput({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isLocationSelected, setisLocationSelected] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      if (value.length > 1 && !isLocationSelected) {
+      // Only fetch suggestions when the user has interacted (typed)
+      if (userInteracted && value.length > 1 && !isLocationSelected) {
         setLoading(true);
         const results = await getLocationSuggestions(value);
-        console.log("Location suggestions:", results);
         setSuggestions(results);
         setShowSuggestions(true);
         setLoading(false);
@@ -29,7 +30,7 @@ export default function LocationInput({
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, userInteracted, isLocationSelected]);
 
   // ✅ Outside click detect करने के लिए
   useEffect(() => {
@@ -60,9 +61,14 @@ export default function LocationInput({
         type="text"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => [onChange(e.target.value), setisLocationSelected(false)]}
+        onChange={(e) => {
+          setUserInteracted(true);
+          setisLocationSelected(false);
+          onChange(e.target.value);
+        }}
         onFocus={() =>
-          value.length > 1 && suggestions.length > 0 && setShowSuggestions(true)
+          // only open suggestion list on focus if user has typed and suggestions exist
+          userInteracted && value.length > 1 && suggestions.length > 0 && setShowSuggestions(true)
         }
         className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none"
       />

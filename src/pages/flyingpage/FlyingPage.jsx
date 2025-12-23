@@ -12,6 +12,9 @@ function FlyingPage() {
       <FlyingBanner/>
       <FlyingContent/>
        <TravelTool
+        firstButtonName={"Flight Time"}
+        secondButtonName={"Closest Airport"}
+        thirdButtonName={"Driving Time"}
         fourthButtonName={"Driving distance"}
         fifthButtonName={"Cities Nearby"}
         sixButtonName={"Halfway Point"}

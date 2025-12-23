@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const TravelTool = ({
   firstButtonName,
@@ -14,6 +15,7 @@ export const TravelTool = ({
   imageSrc
 }) => {
   const [selected, setSelected] = useState("100");
+  const navigate = useNavigate();
   return (
     <div className="w-full bg-[#f1f2f3] pb-20 pt-10 overflow-hidden">
       {/* ✅ CONTENT FLEX */}
@@ -29,15 +31,18 @@ export const TravelTool = ({
         {/* ✅ LEFT CARD (OVERLAPPING) */}
         <div className="order-1 md:order-2">
           <div className="bg-white shadow-xl p-6 md:p-10 max-w-xl relative z-10 md:-ml-24 md:mt-16">
-            <span class="text-3xl font-bold text-[#05296B]">{cardTitle}</span>
-            <span class="block h-2 w-32 bg-[#fae110] mt-2 mb-6"></span>
+            <span className="text-3xl font-bold text-[#05296B]">{cardTitle}</span>
+            <span className="block h-2 w-32 bg-[#fae110] mt-2 mb-6"></span>
 
             {/* ✅ AMOUNT OPTIONS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Flight Time */}
               {firstButtonName && (
                 <div
-                  onClick={() => setSelected("flight-time")}
+                  onClick={() => {
+                    setSelected("flight-time");
+                    navigate("/flying-time");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "flight-time"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -53,7 +58,10 @@ export const TravelTool = ({
               {/* Closest Airport */}
               {secondButtonName && (
                 <div
-                  onClick={() => setSelected("closest-airport")}
+                  onClick={() => {
+                    setSelected("closest-airport");
+                    navigate("/closest-airport");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "closest-airport"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -69,7 +77,10 @@ export const TravelTool = ({
               {/* Driving Time */}
               {thirdButtonName && (
                 <div
-                  onClick={() => setSelected("driving-time")}
+                  onClick={() => {
+                    setSelected("driving-time");
+                     navigate("/driving-time");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "driving-time"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -85,7 +96,10 @@ export const TravelTool = ({
               {/* Driving Distance */}
               {fourthButtonName && (
                 <div
-                  onClick={() => setSelected("driving-distance")}
+                  onClick={() => {
+                    setSelected("driving-distance");
+                  navigate("/driving-distance");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "driving-distance"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -101,7 +115,10 @@ export const TravelTool = ({
               {/* Cities Nearby */}
               {fifthButtonName && (
                 <div
-                  onClick={() => setSelected("cities-nearby")}
+                  onClick={() => {
+                    setSelected("cities-nearby");
+                     navigate("/cities-nearby");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "cities-nearby"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -117,7 +134,9 @@ export const TravelTool = ({
               {/* Halfway Point */}
               {sixButtonName && (
                 <div
-                  onClick={() => setSelected("halfway-point")}
+                  onClick={() => {setSelected("halfway-point");
+                  navigate("/halfway");
+                }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "halfway-point"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -133,7 +152,9 @@ export const TravelTool = ({
               {/* Time Difference */}
               {sevenButtonName && (
                 <div
-                  onClick={() => setSelected("time-difference")}
+                  onClick={() => {
+                    setSelected("time-difference");
+                    navigate("/time-change");}}
                   className={`border rounded cursor-pointer transition ${
                     selected === "time-difference"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -149,7 +170,9 @@ export const TravelTool = ({
               {/* Cost of Driving */}
               {eightButtonName && (
                 <div
-                  onClick={() => setSelected("cost-driving")}
+                  onClick={() => {setSelected("cost-driving");
+                  navigate("/cost-of-driving");
+                  }}
                   className={`border rounded cursor-pointer transition ${
                     selected === "cost-driving"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"
@@ -165,7 +188,9 @@ export const TravelTool = ({
               {/* Stopping Points */}
               {nineButtonName && (
                 <div
-                  onClick={() => setSelected("stopping-points")}
+                  onClick={() => {
+                    setSelected("stopping-points");
+                    navigate("/stopping-points");}}
                   className={`border rounded cursor-pointer transition ${
                     selected === "stopping-points"
                       ? "ring-2 ring-[#05296B] bg-[#05296B] text-white"

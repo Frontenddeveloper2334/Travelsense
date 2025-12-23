@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function FlyingBanner() {
   const [formData, setFormData] = useState({
-    path: "drive-distance",
+    path: "flight-time",
     from: "",
     to: "",
   });
@@ -21,7 +21,7 @@ function FlyingBanner() {
       <div className="relative bg-[#00205b] flex flex-col justify-center px-10 py-16 text-white">
         <div className="absolute left-40 top-25">
           <h1 className="w-full text-3xl md:text-4xl font-bold leading-tight">
-            <span className="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-[1.5]">
+            <span className="bg-[#ffdd00] text-[#00205b] px-3 py-1 leading-normal">
               Plan Your Perfect Road Trip
             </span>
           </h1>
@@ -45,7 +45,7 @@ function FlyingBanner() {
         <div className="relative z-10 max-w-md w-full mx-4 my-14 bg-white/90 backdrop-blur-md shadow-2xl p-6 sm:p-8">
           <h1 className="text-2xl font-medium mb-6 text-left">
             <span className="text-[#00205b] pr-1">Flying</span>
-            <span className="text-yellow-400 font-bold">Calculator</span>
+            <span className="text-yellow-400 font-bold">Time</span>
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">

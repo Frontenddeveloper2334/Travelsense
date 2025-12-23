@@ -17,7 +17,7 @@ const menuItems = [
     icon: <FaCar />,
     path: "/driving", // ✅ This links to DrivingPage
     links: [
-      { name: "Driving Distance", href: "/drive-distance" },
+      { name: "Driving Distance", href: "/driving-distance" },
       { name: "Driving Time", href: "/driving-time" },
       { name: "Cost of Driving", href: "/cost-of-driving" },
     ],
@@ -30,7 +30,7 @@ const menuItems = [
       { name: "Cities Nearby", href: "/cities-near" },
       { name: "Halfway Point", href: "/halfway" },
       { name: "Stopping Points", href: "/stopping-points" },
-      { name: "Driving Distance", href: "/drive-distance" },
+      { name: "Driving Distance", href: "/driving-distance" },
     ],
   },
   {
@@ -82,7 +82,7 @@ export default function Header() {
 
   return (
     <header className="relative w-full text-[#00205b] bg-white shadow">
-      <div className="mx-auto max-w-[1280px] font-[800] flex items-center justify-end px-8 relative">
+      <div className="mx-auto max-w-7xl font-extrabold flex items-center justify-end px-8 relative">
         {/* ✅ Logo links to homepage */}
         <Link
           to="/"
